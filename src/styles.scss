@@ -1,1 +1,176 @@
 /* You can add global styles to this file, and also import other style files */
+// @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  .ui-dialog {
+    overflow: scroll;
+  }
+  .clearSearch {
+    right: 10px;
+    top: 10px;
+    z-index: 3;
+    position: absolute;
+  }
+  .summary {
+    .summary-header {
+      display: flex;
+      margin-bottom: 12px;
+
+      .header-left {
+        flex-grow: 1;
+        text-align: left;
+        margin: auto 0;
+
+        a.anchor {
+          font-size: 20px;
+        }
+
+        .text {
+          font-weight: 500;
+          font-size: 20px;
+        }
+      }
+
+      .header-right {
+        flex-grow: 1;
+        text-align: right;
+      }
+    }
+
+    .summary-info {
+      background: #ffffff;
+      border: 0.5px solid rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+  }
+  .list-footer {
+    height: 60px;
+    padding: 0 24px;
+    background: #0072bc;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    left: 84px;
+    right: 24px;
+
+    .divider {
+      margin: 0 24px;
+      border-color: #ffffff;
+    }
+
+    a {
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .ei {
+      margin-right: 9px;
+    }
+
+    .edit-button,
+    .copy-button {
+      margin-right: 24px;
+    }
+  }
+  .pb-1 {
+    padding-bottom: 1em;
+  }
+  .buttons-footer {
+    height: 50px;
+    padding: 0 24px;
+    background: white;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    left: 84px;
+    right: 24px;
+    flex-direction: row-reverse;
+  }
+}
+
+.table-fields-list-body {
+  .page-title {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  .table-fields-list {
+    position: relative;
+
+    ::ng-deep table tr {
+      td.code {
+        color: #0072bc;
+      }
+    }
+    .table-fields-option {
+      a {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.code {
+  color: #0072bc;
+  cursor: pointer;
+}
+
+.w-3 {
+  width: 3em;
+}
+
+.container {
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+}
+
+p-table {
+  ::ng-deep {
+    .ui-table {
+      .ui-table-scrollable-wrapper {
+        .ui-table-scrollable-body {
+          height: 200px !important;
+        }
+        @media screen and (-ms-high-contrast: active),
+          (-ms-high-contrast: none) {
+          .ui-table-scrollable-body {
+            overflow-y: scroll;
+          }
+        }
+      }
+    }
+  }
+}
+
+.add-translation {
+  margin: auto 11px;
+}
+
+.has-data {
+  color: #ee7d11;
+}
+
+.mt-80 {
+  margin-top: 80px;
+}
+
+.wrap-codes {
+  word-break: break-word;
+  width: 250px;
+}
+.wrap-text {
+  word-break: break-word;
+}
