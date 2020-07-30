@@ -1,0 +1,84 @@
+<div class="summary">
+    <div class="summary-header">
+        <div class="header-left">
+            <span class="text">Item Data</span>
+        </div>
+    </div>
+
+    <div *ngIf="itemDataLoaded">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="form-label-div">
+                    <label class="form-label" for="Name">Item Name</label>
+                </div>
+                <div class="form-input-div">
+                    <input id="name" [(ngModel)]="item.name" type="text" size="100" pInputText required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label-div">
+                    <label class="form-label" for="CostPrice">Cost Price</label>
+                </div>
+                <div class="form-input-div">
+                    <input id="name" [(ngModel)]="item.costPrice" type="number" size="30" pInputText required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label-div">
+                    <label class="form-label" for="CostPrice">Selling Price</label>
+                </div>
+                <div class="form-input-div">
+                    <input id="name" [(ngModel)]="item.sellingPrice" type="number" size="30" pInputText required>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <button pButton type="button" [disabled]="disableSave()" label="Save changes" (click)="saveItem()"></button>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="summary-header">
+        <div class="header-left">
+            <span class="text">Itenary</span>
+        </div>
+    </div>
+    <div *ngIf="itenaryDataLoaded">
+        <p-table #itenaryTable [columns]="cols"  [value]="itenary" [paginator]="true" [rows]="10">
+
+            <ng-template pTemplate="caption">
+                <div class="flex-body justify-content-between">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="ei ei-magnifier"></i></span>
+                        <input class="ui-inputtext" type="text" pInputText size="50" placeholder="Search"
+                            (input)="itenaryTable.filterGlobal($event.target.value, 'contains')" />
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<!-- <div class="ui-dynamic-dialog-footer">
+    <div class="text-right">
+        <button pButton [disabled]="disableSave()" label="Save" class="m-r-12" (click)="saveItem()"></button>
+        <button pButton label="Cancel" class="ui-button-tertiary" (click)="closeDialogBox()"></button>
+    </div>
+</div> -->
