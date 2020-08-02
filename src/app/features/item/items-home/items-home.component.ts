@@ -28,7 +28,6 @@ export class ItemsHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = [
-      { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
       { field: 'costPrice', header: 'Cost Price' },
       { field: 'sellingPrice', header: 'Selling Price' }
