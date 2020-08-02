@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'stores',
     loadChildren: () => import('./features/store/store.module').then(m => m.StoreModule)
+  },
+  {
+    path: 'payments',
+    loadChildren: () => import('./features/payment/payment.module').then(m => m.PaymentModule)
   }
 ];
 

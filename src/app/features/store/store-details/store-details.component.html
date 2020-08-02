@@ -1,28 +1,156 @@
-<!-- <div #dialogContent class="ui-dynamic-dialog-body">
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="form-label-div">
-                <label class="form-label" for="Name">Name</label>
+<div class="summary">
+    <div class="summary-header">
+        <div class="header-left">
+            <span class="text">Store Data</span>
+        </div>
+    </div>
+
+    <div class="summary-info" *ngIf="storeDataLoaded">
+        <div class="p-grid no-padding no-margin">
+            <div class="p-col no-padding no-margin">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <label class="form-label" for="name">Name</label>
+                        </div>
+                        <div class="form-input-div">
+                            <input id="name" [(ngModel)]="store.name" type="text" size="100" pInputText required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <label class="form-label" for="address">Address</label>
+                        </div>
+                        <div class="form-input-div">
+                            <textarea id="address" [(ngModel)]="store.address" type="text" size="500" pInputText
+                                required></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-input-div">
-                <input id="name" [(ngModel)]="store.name" type="text" size="100" pInputText required>
+
+            <div class="p-col no-padding no-margin">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <span class="form-label top">Summary</span>
+                        </div>
+                        <div class="form-input-div flex-column">
+                            <label class="form-label">Total Item Cost Bought:
+                                {{totalItemCostBought}}</label>
+                            <br><br>
+                            <label class="form-label">Total Amount Paid:
+                                {{totalAmountPaid}}</label>
+                            <br><br>
+                            <label class="form-label">Amount Left to Pay:
+                                {{amountLeftToPay}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <button pButton type="button" [disabled]="disableSave()" label="Save changes"
+                (click)="saveStore()"></button>
+        </div>
+    </div>
+    <br><br>
+
+    <div class="summary-header">
+        <div class="header-left">
+            <span class="text">All Details</span>
+        </div>
+    </div>
+
+    <div class="flex-body">
+        <div class="left">
+            <h2 class="text">Items Bought</h2>
+            <div *ngIf="storeItemsDataLoaded">
+                <p-treeTable #storesItems [value]="storeTreeNodes" [columns]="itemsBoughtCols">
+                    <ng-template pTemplate="caption">
+                        <div class="flex-body justify-content-between">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="ei ei-magnifier"></i></span>
+                                <input class="ui-inputtext" type="text" pInputText size="50" placeholder="Search"
+                                    (input)="storesItems.filterGlobal($event.target.value, 'contains')" />
+                            </div>
+                            <button class="ui-button-secondary m-r-12" pButton (click)="onAddStoreItem()" type="button"
+                                icon="ei ei-plus" iconPos="left" label="Add Store Item"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                            <th style="width:45px"></th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns; let i = index">
+                                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                                <span [ngClass]="{'bold-text': rowNode.node.children}">{{rowData[col.field]}}</span>
+                            </td>
+                            <td *ngIf="!rowNode.node.children">
+                                <a (click)="onEditStoreItem(rowData)" class="div-inline no-text-decoration pointer">
+                                    <i class="ei ei-pencil ei-16"></i>
+                                </a>
+                            </td>
+                            <td *ngIf="rowNode.node.children"></td>
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="form-label-div">
-                <label class="form-label" for="Address">Address</label>
-            </div>
-            <div class="form-input-div">
-                <input id="address" [(ngModel)]="store.address" type="number" size="30" pInputText required>
+        <div class="right">
+            <h2 class="text">Payments Done</h2>
+            <div *ngIf="storeItemsDataLoaded">
+                <p-table #paymentTable [columns]="paymentCols" [value]="allPayments" [paginator]="true" [rows]="10"
+                    (onRowSelect)="onEditPayment($event.data)" selectionMode="single">
+
+                    <ng-template pTemplate="caption">
+                        <div class="summary-header">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon"><i class="ei ei-magnifier"></i></span>
+                                <input class="ui-inputtext" type="text" pInputText size="50" placeholder="Search"
+                                    (input)="paymentTable.filterGlobal($event.target.value, 'contains')" />
+                            </div>
+                            <div class="header-right">
+                                <button pButton type="button" icon="ei ei-plus" label="Add Payment"
+                                    class="ui-button-secondary m-r-12" (click)="onAddPayment()"></button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                            <th style="width:45px"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns">
+                                {{rowData[col.field]}}
+                            </td>
+                            <td>
+                                <a (click)="onEditPayment(rowData)" class="div-inline no-text-decoration pointer">
+                                    <i class="ei ei-pencil ei-16"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </div>
 </div>
 
-<div class="ui-dynamic-dialog-footer">
-    <div class="text-right">
-        <button pButton [disabled]="disableSave()" label="Save" class="m-r-12" (click)="saveItem()"></button>
-        <button pButton label="Cancel" class="ui-button-tertiary" (click)="closeDialogBox()"></button>
-    </div>
-</div> -->
+<p-toast position="top-center" class="mt-80"></p-toast>

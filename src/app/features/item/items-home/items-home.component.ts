@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { Items } from 'src/app/shared/models/items.model';
+import { Item } from 'src/app/shared/models/item.model';
 import { DataService } from 'src/app/core/data-service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng';
 import { AddItemComponent } from '../add-item/add-item.component';
 import { Router } from '@angular/router';
+import SharedService from '../../../shared/service/shared.service';
 
 @Component({
   selector: 'app-items-home',
   templateUrl: './items-home.component.html',
-  styleUrls: ['./items-home.component.css'],
+  styleUrls: ['./items-home.component.scss'],
   providers: [DialogService, MessageService]
 })
 export class ItemsHomeComponent implements OnInit {
 
   cols: any[] = [];
-  items: Items[] = [];
-  selectedItem: Items;
+  items: Item[] = [];
+  selectedItem: Item;
   itemDetailsRef: any;
 
   constructor(
@@ -47,24 +48,24 @@ export class ItemsHomeComponent implements OnInit {
       width: '680px'
     });
 
-    this.itemDetailsRef.onClose.subscribe((updatedItem: Items) => {
+    this.itemDetailsRef.onClose.subscribe((updatedItem: Item) => {
       if (updatedItem.name) {
         this.displayToaster();
         this.getAllItems();
       }
     });
-
   }
 
-  onItemSelect(item: Items) {
+  onItemSelect(item: Item) {
+    SharedService.item = item;
     this.router.navigate(['items/details', item.id]);
   }
 
-  displayToaster(isAddMode = false) {
+  displayToaster() {
     this.messageService
       .add({
         severity: 'success',
-        detail: isAddMode ? 'Item added successfully' : 'Item updated successfully'
+        detail: 'Item updated successfully'
       });
   }
 }

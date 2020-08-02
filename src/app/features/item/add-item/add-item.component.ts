@@ -1,40 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Items } from 'src/app/shared/models/items.model';
+import { Item } from 'src/app/shared/models/item.model';
 import { DataService } from 'src/app/core/data-service';
 
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
-  styleUrls: ['./add-item.component.css']
+  styleUrls: ['./add-item.component.scss']
 })
 export class AddItemComponent implements OnInit {
 
-  item: Items;
+  item: Item;
 
   constructor(
     public ref: DynamicDialogRef,
     private dataService: DataService,
-  ) {
-    this.item = new Items();
-  }
+  ) { }
 
   ngOnInit(): void {
+    this.item = new Item();
   }
 
   disableSave(): boolean {
     if (this.item) {
-      if (!this.item.name || this.item.name === '') {
-        return true;
-      }
-      if (!this.item.costPrice || !this.item.sellingPrice) {
+      if (!this.item.name || this.item.name === ''
+        || !this.item.costPrice || !this.item.sellingPrice) {
         return true;
       }
     }
     return false;
   }
 
-  closeDialogBox(item: Items = null) {
+  closeDialogBox(item: Item = null) {
     this.ref.close(item);
   }
 

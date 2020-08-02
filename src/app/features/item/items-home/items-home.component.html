@@ -1,4 +1,6 @@
-<p-table #itemsTable [columns]="cols"  [value]="items" [paginator]="true" [rows]="2" selectionMode="single"
+<h1 class="page-title">Items</h1>
+
+<p-table #itemsTable [columns]="cols"  [value]="items" [paginator]="true" [rows]="10" selectionMode="single"
     [(selection)]="selectedItem" (onRowSelect)="onItemSelect($event.data)">
 
     <ng-template pTemplate="caption">
@@ -18,12 +20,18 @@
             <th *ngFor="let col of columns">
                 {{col.header}}
             </th>
+            <th style="width:45px"></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
+            </td>
+            <td>
+                <a (click)="onItemSelect(rowData)" class="div-inline no-text-decoration pointer">
+                    <i class="ei ei-pencil ei-16"></i>
+                </a>
             </td>
         </tr>
     </ng-template>

@@ -5,40 +5,63 @@
         </div>
     </div>
 
-    <div *ngIf="itemDataLoaded">
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="form-label-div">
-                    <label class="form-label" for="Name">Item Name</label>
+    <div class="summary-info" *ngIf="itemDataLoaded">
+        <div class="p-grid no-padding no-margin">
+            <div class="p-col no-padding no-margin">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <label class="form-label" for="Name">Item Name</label>
+                        </div>
+                        <div class="form-input-div">
+                            <input id="name" [(ngModel)]="item.name" type="text" size="100" pInputText required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <label class="form-label" for="CostPrice">Cost Price</label>
+                        </div>
+                        <div class="form-input-div">
+                            <input id="name" [(ngModel)]="item.costPrice" type="number" size="30" pInputText required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <label class="form-label" for="CostPrice">Selling Price</label>
+                        </div>
+                        <div class="form-input-div">
+                            <input id="name" [(ngModel)]="item.sellingPrice" type="number" size="30" pInputText
+                                required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-input-div">
-                    <input id="name" [(ngModel)]="item.name" type="text" size="100" pInputText required>
+            </div>
+            <div class="p-col no-padding no-margin">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="form-label-div">
+                            <span class="form-label top">Summary</span>
+                        </div>
+                        <div class="form-input-div flex-column">
+                            <label class="form-label">Total Bought Count:
+                                {{getTotalBoughtCount()}}</label>
+                            <br><br>
+                            <label class="form-label">Total Sold Count:
+                                {{getTotalSoldCount()}}</label>
+                            <br><br>
+                            <label class="form-label">Total Profit: ₹ {{getTotalProfit()}}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="form-label-div">
-                    <label class="form-label" for="CostPrice">Cost Price</label>
-                </div>
-                <div class="form-input-div">
-                    <input id="name" [(ngModel)]="item.costPrice" type="number" size="30" pInputText required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="form-label-div">
-                    <label class="form-label" for="CostPrice">Selling Price</label>
-                </div>
-                <div class="form-input-div">
-                    <input id="name" [(ngModel)]="item.sellingPrice" type="number" size="30" pInputText required>
-                </div>
-            </div>
         </div>
         <div class="text-right">
             <button pButton type="button" [disabled]="disableSave()" label="Save changes" (click)="saveItem()"></button>
         </div>
     </div>
-
     <br><br>
 
     <div class="summary-header">
@@ -47,14 +70,19 @@
         </div>
     </div>
     <div *ngIf="itenaryDataLoaded">
-        <p-table #itenaryTable [columns]="cols"  [value]="itenary" [paginator]="true" [rows]="10">
+        <p-table #itenaryTable [columns]="cols"  [value]="itenary" [paginator]="true" [rows]="10" selectionMode="single"
+            (onRowSelect)="onEditItenary($event.data)">
 
             <ng-template pTemplate="caption">
-                <div class="flex-body justify-content-between">
+                <div class="summary-header">
                     <div class="ui-inputgroup">
                         <span class="ui-inputgroup-addon"><i class="ei ei-magnifier"></i></span>
                         <input class="ui-inputtext" type="text" pInputText size="50" placeholder="Search"
                             (input)="itenaryTable.filterGlobal($event.target.value, 'contains')" />
+                    </div>
+                    <div class="header-right">
+                        <button pButton type="button" icon="ei ei-plus" label="Add Itenary"
+                            class="ui-button-secondary m-r-12" (click)="onAddItenary()"></button>
                     </div>
                 </div>
             </ng-template>
@@ -64,21 +92,23 @@
                     <th *ngFor="let col of columns">
                         {{col.header}}
                     </th>
+                    <th style="width:45px"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr [pSelectableRow]="rowData">
                     <td *ngFor="let col of columns">
                         {{rowData[col.field]}}
+                    </td>
+                    <td>
+                        <a (click)="onEditItenary(rowData)" class="div-inline no-text-decoration pointer">
+                            <i class="ei ei-pencil ei-16"></i>
+                        </a>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
 </div>
-<!-- <div class="ui-dynamic-dialog-footer">
-    <div class="text-right">
-        <button pButton [disabled]="disableSave()" label="Save" class="m-r-12" (click)="saveItem()"></button>
-        <button pButton label="Cancel" class="ui-button-tertiary" (click)="closeDialogBox()"></button>
-    </div>
-</div> -->
+
+<p-toast position="top-center" class="mt-80"></p-toast>
