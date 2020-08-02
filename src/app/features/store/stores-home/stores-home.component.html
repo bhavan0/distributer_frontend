@@ -10,6 +10,7 @@
                 <input class="ui-inputtext" type="text" pInputText size="50" placeholder="Search"
                     (input)="itemsTable.filterGlobal($event.target.value, 'contains')" />
             </div>
+            <label>Total Stores: {{totalStores}}</label>
             <button class="ui-button" pButton (click)="onAddStore()" type="button" icon="ei ei-plus" iconPos="left"
                 label="Add Store"></button>
         </div>

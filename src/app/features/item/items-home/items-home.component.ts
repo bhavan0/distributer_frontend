@@ -19,6 +19,7 @@ export class ItemsHomeComponent implements OnInit {
   items: Item[] = [];
   selectedItem: Item;
   itemDetailsRef: any;
+  totalItems = 0;
 
   constructor(
     private dataService: DataService,
@@ -38,6 +39,7 @@ export class ItemsHomeComponent implements OnInit {
   getAllItems() {
     this.dataService.getAllItems().subscribe(data => {
       this.items = data;
+      this.totalItems = this.items.length;
     });
   }
 

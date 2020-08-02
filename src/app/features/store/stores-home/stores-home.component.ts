@@ -18,6 +18,7 @@ export class StoresHomeComponent implements OnInit {
   stores: Store[] = [];
   selectedStore: Store;
   storeDetailsRef: any;
+  totalStores = 0;
 
   constructor(
     private dataService: DataService,
@@ -37,6 +38,7 @@ export class StoresHomeComponent implements OnInit {
   getAllStores() {
     this.dataService.getAllStores().subscribe(data => {
       this.stores = data;
+      this.totalStores = this.stores.length;
     });
   }
 
